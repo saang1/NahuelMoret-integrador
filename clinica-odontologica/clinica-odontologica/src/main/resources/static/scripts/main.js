@@ -45,14 +45,16 @@ $(document).ready( () => {
                 apellidos: $('#apellido').val(),
                 dni: $('#dni').val(),
                 fechaIngreso: $('#fechaIngreso').val(),
-                id: $('#id').val(),
-                calle: $('#calle').val(),
-                numero: $('#numero').val(),
-                localidad: $('#localidad').val(),
-                provincia: $('#provincia').val(),
-
-                
+                domicilio: { // Include the "domicilio" object
+                    id: $('#id-2').val(),
+                    calle: $('#calle').val(),
+                    numero: $('#numero').val(),
+                    localidad: $('#localidad').val(),
+                    provincia: $('#provincia').val(),
+                },
             }
+
+            console.log('Request Data:', datosPacientes);
 
             $.ajax({
                 url: 'http://localhost:8081/pacientes/registrar',
@@ -62,8 +64,10 @@ $(document).ready( () => {
                 dataType: 'json',
                 success: (data) => {
                     console.log('Paciente Registrado!');
-                }
-
+                },
+                error: (xhr, textStatus, errorThrown) => {
+                    console.error('Error:', textStatus, errorThrown);
+                },
                 })
             })
         }
@@ -79,9 +83,14 @@ $(document).ready( () => {
                 url: 'http://localhost:8081/pacientes/' + id,
                 type: 'GET',
                 dataType: 'json',
-                succes: (res) => {
+                success: (res) => {
                     let data = `
-                        Nombre - ${res.nombre} - Apellidos - ${res.apellido} - Calle - ${res.calle} - Numero - ${res.numero} - Localidad - ${res.localidad} - Provincia - ${res.provincia} - <br><br>
+                        <strong>Nombre</strong> - ${res.nombre} 
+                        - <strong>Apellido</strong> - ${res.apellido} <br><br>
+                        <strong>Calle</strong> - ${res.domicilio.calle} 
+                        - <strong>Numero</strong> - ${res.domicilio.numero} <br><br>
+                        <strong>Localidad</strong> - ${res.domicilio.localidad} 
+                        - <strong>Provincia</strong> - ${res.domicilio.provincia} <br><br>
                         <button id="btn-limpiar" class="btn btn-warning">Limpiar</button>
                     `
 
@@ -112,17 +121,14 @@ $(document).ready( () => {
                     url: 'http://localhost:8081/pacientes/eliminar/' + id,
                     type: 'DELETE',
                     dataType: 'Json',
-                    succes: (res)  => {
+                    success: (res)  => {
                         $('#messages').html('Usuario eliminado').css('display', 'block');
                         list();
                     }
                 })
-
             }
-
-            
         })
-    }
+    };
 
     
 
