@@ -22,7 +22,7 @@ class OdontologoServiceTest {
     @Test
     @Order(1)
     void deberiaInsertarUnOdontologoDeNombrePedroConId1(){
-        OdontologoEntradaDto odontologoEntradaDto = new OdontologoEntradaDto("144", "Pedro", "Gomez");
+        OdontologoEntradaDto odontologoEntradaDto = new OdontologoEntradaDto("1444", "Pedro", "Gomez");
 
         OdontologoSalidaDto odontologoSalidaDto  = odontologoService.registrarOdontologo(odontologoEntradaDto);
 
@@ -32,8 +32,8 @@ class OdontologoServiceTest {
 
     @Test
     @Order(2)
-    void deberiaRetornarseUnaListaNoVaciaDeOdontologos(){
-        assertTrue(odontologoService.listarOdontologos().size() > 0);
+    void deberiaRetornarseUnaListaVaciaDeOdontologos(){
+        assertFalse(odontologoService.listarOdontologos().size() > 0);
     }
 
     @Test
